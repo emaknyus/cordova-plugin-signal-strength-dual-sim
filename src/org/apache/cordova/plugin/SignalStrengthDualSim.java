@@ -53,23 +53,6 @@ public class SignalStrengthDualSim extends CordovaPlugin {
             TelephonyManager defaultTelephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             defaultTelephonyManager.listen(ssListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
 
-
-//            int counter = 0;
-//            while (dbm == -1) {
-//                LOG.i(LOG_TAG, "while " + dbm);
-//                try {
-//                    Thread.sleep(200);
-//                } catch (InterruptedException e) {
-//
-//                    return false;
-//                }
-//                if (counter++ >= 5) {
-//                    break; // return -1
-//                }
-//            }
-
-//            callback.success();
-
             PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
             result.setKeepCallback(true);
             callback.sendPluginResult(result);
@@ -96,6 +79,7 @@ public class SignalStrengthDualSim extends CordovaPlugin {
             LOG.i(LOG_TAG, "Signalstrength, " + tsNormSignalStrength);
             asu = tsNormSignalStrength;
             level = signalStrength.getLevel();
+            dbm = (2 * tsNormSignalStrength) - 113 ;     // -> dBm
 
 
             Context context = cordova.getActivity().getApplicationContext();
@@ -103,12 +87,11 @@ public class SignalStrengthDualSim extends CordovaPlugin {
             String operatorName = defaultTelephonyManager.getNetworkOperatorName();
             String operator = defaultTelephonyManager.getNetworkOperator();
             int networkType = defaultTelephonyManager.getNetworkType();
-            int networkDataType = defaultTelephonyManager.getDataNetworkType();
 
             String netWorkTypeName;
             switch (networkType) {
                 case TelephonyManager.NETWORK_TYPE_GPRS:
-                case TelephonyManager.NETWORK_TYPE_GSM:
+                // case TelephonyManager.NETWORK_TYPE_GSM:
                 case TelephonyManager.NETWORK_TYPE_EDGE:
                 case TelephonyManager.NETWORK_TYPE_CDMA:
                 case TelephonyManager.NETWORK_TYPE_1xRTT:
@@ -124,11 +107,11 @@ public class SignalStrengthDualSim extends CordovaPlugin {
                 case TelephonyManager.NETWORK_TYPE_EVDO_B:
                 case TelephonyManager.NETWORK_TYPE_EHRPD:
                 case TelephonyManager.NETWORK_TYPE_HSPAP:
-                case TelephonyManager.NETWORK_TYPE_TD_SCDMA:
+                // case TelephonyManager.NETWORK_TYPE_TD_SCDMA:
                     netWorkTypeName = "3G";
                     break;
                 case TelephonyManager.NETWORK_TYPE_LTE:
-                case TelephonyManager.NETWORK_TYPE_IWLAN:
+                // case TelephonyManager.NETWORK_TYPE_IWLAN:
                     netWorkTypeName = "4G";
                     break;
                 default:
@@ -141,10 +124,12 @@ public class SignalStrengthDualSim extends CordovaPlugin {
             try {
                 response.put("operator_name", operatorName);
                 response.put("operator", operator);
-                response.put("networkType", netWorkTypeName);
-                response.put("NetworkTypeI", networkType);
+                response.put("networkTypeName", netWorkTypeName);
+                response.put("NetworkType", networkType);
                 response.put("asu", asu);
                 response.put("level", level);
+                response.put("dbm", dbm);
+                
             } catch (JSONException e) {
                 e.printStackTrace();
             }
