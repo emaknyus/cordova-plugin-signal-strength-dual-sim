@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/craftpip/cordova-plugin-signal-strength-dual-sim"
+    "url": "https://github.com/emaknyus/cordova-plugin-signal-strength-dual-sim"
   },
   "keywords": [
     "gsm",
@@ -33,7 +33,7 @@
   ],
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/craftpip/cordova-plugin-signal-strength-dual-sim/issues"
+    "url": "https://github.com/emaknyus/cordova-plugin-signal-strength-dual-sim/issues"
   },
-  "homepage": "https://github.com/craftpip/cordova-plugin-signal-strength-dual-sim"
+  "homepage": "https://github.com/emaknyus/cordova-plugin-signal-strength-dual-sim"
 }
