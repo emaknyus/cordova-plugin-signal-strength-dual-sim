@@ -64,13 +64,6 @@ public class SignalStrengthDualSim extends CordovaPlugin {
 
     class SignalStrengthStateListener extends PhoneStateListener  {
 
-//        CallbackContext callback;
-//        Context context;
-//        public void SignalStrengthStateListener(CallbackContext callbackContext, Context appContext){
-//            callback = callbackContext;
-//            context = appContext;
-//        }
-
         @Override
         public void onSignalStrengthsChanged(android.telephony.SignalStrength signalStrength) {
 
@@ -88,6 +81,7 @@ public class SignalStrengthDualSim extends CordovaPlugin {
             String operator = defaultTelephonyManager.getNetworkOperator();
             int networkType = defaultTelephonyManager.getNetworkType();
 
+            /*
             String netWorkTypeName;
             switch (networkType) {
                 case TelephonyManager.NETWORK_TYPE_GPRS:
@@ -118,22 +112,21 @@ public class SignalStrengthDualSim extends CordovaPlugin {
                     netWorkTypeName = "unknown";
                     break;
             }
+            */
 
             JSONObject response = new JSONObject();
-
+            
             try {
                 response.put("operator_name", operatorName);
                 response.put("operator", operator);
-                response.put("networkTypeName", netWorkTypeName);
+                // response.put("networkTypeName", netWorkTypeName);
                 response.put("NetworkType", networkType);
                 response.put("asu", asu);
                 response.put("level", level);
-                response.put("dbm", dbm);
-                
+                response.put("dbm", dbm);                
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
             PluginResult result = new PluginResult(PluginResult.Status.OK, response);
             result.setKeepCallback(false);
